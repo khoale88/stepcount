@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Khoa Serivce</title>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/style.css" rel="stylesheet">
+    <script src="{{ url_for('static', filename = 'jquery-3.2.1.min.js') }}"></script>
+</head>
+
+<body>
+    <div style="width:1200px;padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="">Home</a></li>
+                    <li role="presentation"><a href="">Log out</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Step Count</h3>
+        </div>
+
+        <div class="jumbotron">
+            <form class="form-signin" method="post" enctype="multipart/form-data">
+                <input type="file" name="xmlFile" id="xmlFile" class="form-control" placeholder="file" required autofocus>
+                <br>
+                <button id="btnSubmit" class="btn btn-lg btn-primary btn-block" type="button">Submit</button>
+            </form>
+        </div>
+
+        <div class="jumbotron" id="dlButton" style="display:none;">
+            <a href="/return_files/" target="blank"><button class="btn btn-lg btn-primary">Download!</button></a>
+        </div>
+
+        <footer class="footer ">
+            <p>&copy; Khoa 2017</p>
+        </footer>
+
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(document.body).on('click', '#btnSubmit', function() {
+                $("#dlButton").hide();
+                var formData = new FormData($('form')[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url_for('upload_xml')}}",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    dataType: "json",
+                    success: function(data) {
+                        if (data["link"]) {
+                            console.log(data["link"])
+                            $("#dlButton").show();
+                        } else {
+                            // $("#dlButton").hide();
+                            // window.location.replace(data["redirect"]);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

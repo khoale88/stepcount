@@ -1,0 +1,1 @@
+# Simple application sum step counts per day using pandas, flask
