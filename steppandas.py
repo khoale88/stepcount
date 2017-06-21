@@ -59,4 +59,3 @@ def iter_docs(docs):
 
 if __name__ == "__main__":
     process()
-    print("done")
